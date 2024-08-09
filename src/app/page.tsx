@@ -77,6 +77,7 @@ function Landing() {
   }
 
   useEffect(()=>{
+    const height = window.innerHeight
     updatePantry()
   }, [])
 
