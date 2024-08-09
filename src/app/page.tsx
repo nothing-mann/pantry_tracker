@@ -23,6 +23,7 @@ function Landing() {
   const [itemUnit, setItemUnit] = useState('')
   const [searchedItemName, setSearchedItemName] = useState('')
 
+
   const updatePantry = async () =>{
     const snapshot = query(collection(firestore, 'pantry'))
     const docs = await getDocs(snapshot)
@@ -69,9 +70,10 @@ function Landing() {
     const docRef = doc(collection(firestore, 'pantry'), item)
     const docSnap = await getDoc(docRef)
     if(docSnap.exists()){
-      await getDoc(docRef)
+      const {quantity} = docSnap.data()
+      await setDoc(docRef, {name: itemName, quantity: quantity, unit: itemUnit})
     }
-    await updatePantry
+    await updatePantry()
   }
 
   useEffect(()=>{
@@ -97,8 +99,8 @@ function Landing() {
   return (
     
     <div className="rounded-md relative flex flex-col items-center justify-center">
-        <div className="max-w-2xl mx-auto p-4 z-10">
-          <div className="flex flex-col items-center justify-center h-[40rem] z-10">
+        <div className="max-w-2xl mx-auto p-4 relative z-10">
+          <div className="flex flex-col items-center justify-center h-[40rem] relative z-10">
             <p className="text-neutral-600 dark:text-neutral-200 text-base  mb-10">
               Your automated Pantry assistant
             </p>
@@ -125,7 +127,7 @@ function Landing() {
                       <Stack width={500} height={400} spacing={2} overflow={'auto'}>
                         {
                           pantry.map(({name, quantity, unit})=> (
-                            <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                            <Box key={name} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
                             <Typography variant="h6">{name.charAt(0).toUpperCase()+name.slice(1)}</Typography>
                             <Typography variant="h6">{quantity}</Typography>
                             <Typography variant="h6">{unit}</Typography>
@@ -205,14 +207,16 @@ function Landing() {
                               <TextField variant="outlined" fullWidth placeholder="Search by ItemName here" value={searchedItemName} onChange={(e)=> {setSearchedItemName(e.target.value)}}/>
                               <button className="w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-sm" 
                               onClick={()=>{
-                                
+                               
                               }}>
                               Search
                               </button>
                               </Box>
                             </div>
                             <Stack width={500} height={400} spacing={2} overflow={'auto'}>
-                        
+                            {
+                          
+                        }
                       </Stack>
                     </ModalContent>
                   </ModalBody>
