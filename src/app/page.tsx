@@ -24,6 +24,7 @@ function Landing() {
   const [searchedItemName, setSearchedItemName] = useState('')
 
 
+
   const updatePantry = async () =>{
     const snapshot = query(collection(firestore, 'pantry'))
     const docs = await getDocs(snapshot)
@@ -208,7 +209,7 @@ function Landing() {
                               <TextField variant="outlined" fullWidth placeholder="Search by ItemName here" value={searchedItemName} onChange={(e)=> {setSearchedItemName(e.target.value)}}/>
                               <button className="w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-sm" 
                               onClick={()=>{
-                               
+                                //temp = searchedItemName
                               }}>
                               Search
                               </button>
@@ -216,8 +217,21 @@ function Landing() {
                             </div>
                             <Stack width={500} height={400} spacing={2} overflow={'auto'}>
                             {
-                          
-                        }
+                            
+                              pantry.map(({name, quantity, unit})=> (
+                                (searchedItemName === name)&&(<Box key={name} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                                <Typography variant="h6">{name.charAt(0).toUpperCase()+name.slice(1)}</Typography>
+                                <Typography variant="h6">{quantity}</Typography>
+                                <Typography variant="h6">{unit}</Typography>
+                                <button className="w-40 h-10 rounded-xl bg-black border dark:border-white border-transparent text-white text-sm" 
+                                  onClick={()=>{
+                                    removeItem(name)
+                                  }}>
+                                    Remove Item
+                                  </button>
+                                </Box>)
+                              )) 
+                            }
                       </Stack>
                     </ModalContent>
                   </ModalBody>
@@ -226,6 +240,7 @@ function Landing() {
           </div>
         </div>
       <BackgroundBeams/>
+      {/* <Boxes/> */}
     </div>
    );
   }
