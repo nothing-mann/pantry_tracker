@@ -101,6 +101,8 @@ function Landing() {
   return (
     
     <div className="rounded-md relative flex flex-col items-center justify-center">
+      <title>Pantry Tracker</title>
+      
         <div className="max-w-2xl mx-auto p-4 relative z-10">
           <div className="flex flex-col items-center justify-center h-[40rem] relative z-10">
             <p className="text-neutral-600 dark:text-neutral-200 text-base  mb-10">
